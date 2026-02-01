@@ -33,6 +33,6 @@ jobs:
     - name: Deploy to Render
       uses: JorgeLNJunior/render-deploy@v1.5.0
       with:
-        service_id: ${{ secrets.RENDER_SERVICE_ID }}
-        api_key: ${{ secrets.RENDER_API_KEY }}
+        service_id: ${{ secrets.SERVICE_ID }}
+        api_key: ${{ secrets.API_ID }}
         wait_deploy: true
