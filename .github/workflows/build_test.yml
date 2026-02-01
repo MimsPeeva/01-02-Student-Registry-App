@@ -5,14 +5,10 @@ name: Build and Test App
 on:
   push:
     branches: [ "main" ]
- 
 
 jobs:
   build_and_test:
-
     runs-on: ubuntu-latest
-
-    
     steps:
     - name: Checkout the code
       uses: actions/checkout@v4
@@ -25,13 +21,15 @@ jobs:
       run: npm install
     - name: Run test
       run: npm test
-   
+
   deploy:
+    needs: build_and_test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-    - name: Deploy to Render
-      uses: JorgeLNJunior/render-deploy@v1.5.0
-      with:
-        service_id: ${{ secrets.RENDER_SERVICE_ID }}
-        api_key: ${{ secrets.RENDER_API_KEY }}
-        wait_deploy: true
+      - name: Deploy to Render
+        uses: JorgeLNJunior/render-deploy@v1.5.0
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
